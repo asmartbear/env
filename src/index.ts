@@ -39,13 +39,13 @@ export function loadEnvironment() {
  * @param key the environment key to load
  * @param default the default value if it is not present (which doesn't have to be a string), or the `THROW_IF_MISSING` constant to throw in that case.
  */
-export function getEnv<T>(key: string, def: T | typeof THROW_IF_MISSING): string | T {
+export function getEnv<T>(key: string, def: T | typeof THROW_IF_MISSING): Exclude<string | T, typeof THROW_IF_MISSING> {
     const x = process.env[key]
     if (!x) {
         if (def === THROW_IF_MISSING) {
             throw new Error("Missing environment variable: " + key)
         } else {
-            return def
+            return def as any
         }
     }
     return x
